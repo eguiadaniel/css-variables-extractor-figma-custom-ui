@@ -1,17 +1,41 @@
-<h2>Rectangle Creator</h2>
-<p>Count: <input id="count" value="5"></p>
-<button id="create">Create</button>
-<button id="cancel">Cancel</button>
+<!DOCTYPE html>
+<html>
+
+<body>
+  <h2>Importar archivo JSON</h2>
+  <input type="file" id="jsonFileInput" accept="application/json" />
+  <button id="import">Importar JSON</button>
+  <h2>Exportar archivo JSON</h2>
+  <button id="export">Exportar JSON</button>
+
+  <button id="close">Close</button>
+</body>
 <script>
 
-document.getElementById('create').onclick = () => {
-  const textbox = document.getElementById('count');
-  const count = parseInt(textbox.value, 10);
-  parent.postMessage({ pluginMessage: { type: 'create-rectangles', count } }, '*')
-}
+  document.getElementById('import').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'import', count } }, '*')
+  }
+  document.getElementById('export').onclick = () => {
+        parent.postMessage({ pluginMessage: { type: 'export' } }, '*')
+      }
+  
+  document.getElementById('close').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
+  }
 
-document.getElementById('cancel').onclick = () => {
-  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
-}
-
+  // Listener para manejar la descarga del JSON
+  onmessage = (event) => {
+        const message = event.data.pluginMessage;
+        if (message.type === 'export-json') {
+          const blob = new Blob([message.data], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'figma_variables.json';
+          link.click();
+          URL.revokeObjectURL(url);
+        }
+      }
 </script>
+
+</html>
