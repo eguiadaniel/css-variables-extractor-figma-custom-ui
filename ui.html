@@ -7,35 +7,31 @@
   <button id="import">Importar JSON</button>
   <h2>Exportar archivo JSON</h2>
   <button id="export">Exportar JSON</button>
-
-  <button id="close">Close</button>
+  <button id="close">Cerrar</button>
 </body>
 <script>
 
-  document.getElementById('import').onclick = () => {
-    parent.postMessage({ pluginMessage: { type: 'import', count } }, '*')
-  }
   document.getElementById('export').onclick = () => {
-        parent.postMessage({ pluginMessage: { type: 'export' } }, '*')
-      }
-  
-  document.getElementById('close').onclick = () => {
-    parent.postMessage({ pluginMessage: { type: 'close' } }, '*')
-  }
+    parent.postMessage({ pluginMessage: { type: 'export' } }, '*');
+  };
 
-  // Listener para manejar la descarga del JSON
+  document.getElementById('close').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'close' } }, '*');
+  };
+
   onmessage = (event) => {
-        const message = event.data.pluginMessage;
-        if (message.type === 'export-json') {
-          const blob = new Blob([message.data], { type: 'application/json' });
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = url;
-          link.download = 'figma_variables.json';
-          link.click();
-          URL.revokeObjectURL(url);
-        }
-      }
+    if (event.data.pluginMessage.type === 'export-json') {
+      // Aquí puedes manejar el JSON exportado, por ejemplo:
+      console.log(event.data.pluginMessage.data);
+      // O guardarlo como un archivo
+      const blob = new Blob([event.data.pluginMessage.data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'variables.json';
+      a.click();
+    }
+  };
 </script>
 
 </html>

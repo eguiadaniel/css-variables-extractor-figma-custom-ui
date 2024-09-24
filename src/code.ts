@@ -2,12 +2,9 @@ import { exportVariables } from "./export-variables"
 
 figma.showUI(__html__);
 
-
-
-figma.ui.onmessage = async (msg: { type: string, count: number }) => {
+figma.ui.onmessage = async (msg: { type: string }) => {
   if (msg.type === 'export') {
-    exportVariables();
-    
+    await exportVariables();
   } else if (msg.type === 'close') {
     figma.closePlugin();
   }
