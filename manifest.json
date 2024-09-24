@@ -2,7 +2,7 @@
   "name": "css-variables-extractor-figma-custom-ui",
   "id": "1420370688087185720",
   "api": "1.0.0",
-  "main": "code.js",
+  "main": "dist/code.js",
   "capabilities": [],
   "enableProposedApi": false,
   "documentAccess": "dynamic-page",
